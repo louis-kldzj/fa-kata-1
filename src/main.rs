@@ -19,7 +19,7 @@ fn calculate_change(change: usize) -> Vec<usize> {
             return coins_to_return;
         }
     }
-    vec![]
+    coins_to_return
 }
 
 #[cfg(test)]
@@ -28,6 +28,6 @@ mod tests {
 
     #[test]
     fn test_name() {
-        assert_eq!(calculate_change(15), vec![])
+        assert_eq!(calculate_change(15), vec![0, 0, 1, 1, 0, 0])
     }
 }
