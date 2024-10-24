@@ -2,14 +2,14 @@ fn main() {
     println!("Hello, world!");
 }
 
-const COINS: [usize; 6] = [1, 2, 5, 10, 20, 50];
+const COINS: [usize; 8] = [1, 2, 5, 10, 20, 50, 100, 200];
 
 fn calculate_change(change: usize) -> Vec<usize> {
     // TODO
     let mut coins = COINS;
     coins.reverse();
     let mut c_change = change;
-    let mut coins_to_return: Vec<usize> = vec![0; 6];
+    let mut coins_to_return: Vec<usize> = vec![0; COINS.len()];
     for (idx, coin) in coins.into_iter().enumerate() {
         if coin <= c_change {
             let coin_count: usize = c_change / coin;
@@ -32,11 +32,19 @@ mod tests {
 
     #[test]
     fn works_with_15() {
-        assert_eq!(calculate_change(15), vec![0, 0, 1, 1, 0, 0])
+        assert_eq!(calculate_change(15), vec![0, 0, 1, 1, 0, 0, 0, 0])
     }
 
     #[test]
     fn works_with_45() {
-        assert_eq!(calculate_change(45), [0, 0, 1, 0, 2, 0])
+        assert_eq!(calculate_change(45), [0, 0, 1, 0, 2, 0, 0, 0])
+    }
+
+    #[test]
+    fn wills_crazy_test_case() {
+        assert_eq!(
+            calculate_change(314159265),
+            vec![0, 0, 1, 1, 0, 1, 0, 1570796]
+        )
     }
 }
