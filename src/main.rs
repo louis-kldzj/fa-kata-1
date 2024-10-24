@@ -1,3 +1,5 @@
+use std::usize;
+
 fn main() {
     println!("Hello, world!");
 }
@@ -5,24 +7,26 @@ fn main() {
 const COINS: [usize; 8] = [1, 2, 5, 10, 20, 50, 100, 200];
 
 fn calculate_change(change: usize) -> Vec<usize> {
-    // TODO
-    let mut coins = COINS;
-    coins.reverse();
-    let mut c_change = change;
-    let mut coins_to_return: Vec<usize> = vec![0; COINS.len()];
-    for (idx, coin) in coins.into_iter().enumerate() {
-        if coin <= c_change {
-            let coin_count: usize = c_change / coin;
+    calculate_change_with_coins(change, COINS.to_vec())
+}
 
-            c_change -= coin * coin_count;
+fn calculate_change_with_coins(change: usize, coins: Vec<usize>) -> Vec<usize> {
+    let mut coins = coins.into_iter().enumerate().collect::<Vec<_>>();
+    coins.sort_by_key(|(_, c)| *c);
+    coins.reverse();
+    let mut current_change = change;
+    let mut coins_to_return: Vec<usize> = vec![0; coins.len()];
+    for (idx, coin) in coins {
+        if coin <= current_change {
+            let coin_count: usize = current_change / coin;
+
+            current_change -= coin * coin_count;
             coins_to_return[idx] += coin_count;
         }
-        if c_change == 0 {
-            coins_to_return.reverse();
+        if current_change == 0 {
             return coins_to_return;
         }
     }
-    coins_to_return.reverse();
     coins_to_return
 }
 
@@ -45,6 +49,14 @@ mod tests {
         assert_eq!(
             calculate_change(314159265),
             vec![0, 0, 1, 1, 0, 1, 0, 1570796]
+        )
+    }
+
+    #[test]
+    fn will_2() {
+        assert_eq!(
+            calculate_change_with_coins(45, vec![5, 1, 2, 10, 20, 50]),
+            [1, 0, 0, 0, 2, 0]
         )
     }
 }
