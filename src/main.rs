@@ -9,9 +9,15 @@ fn calculate_change(change: usize) -> Vec<usize> {
     let mut coins = COINS;
     coins.reverse();
     let mut c_change = change;
-    let mut coins_to_return: Vec<usize> = vec![];
-    for coin in coins {
-        if coin <= c_change {}
+    let mut coins_to_return: Vec<usize> = vec![0; 6];
+    for (idx, coin) in coins.into_iter().enumerate() {
+        if coin <= c_change {
+            c_change -= coin;
+            coins_to_return[idx] += 1;
+        }
+        if coin == 0 {
+            return coins_to_return;
+        }
     }
     vec![]
 }
